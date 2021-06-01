@@ -5,9 +5,9 @@ import GroupIcon from "@material-ui/icons/Group";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Button from "@material-ui/core/Button";
 import logo from "../../assets/images/logo.png";
-import { FormControl } from "@material-ui/core";
 import { Modal } from "../../components/modal";
 import Login from "./components/Login";
+import Register from "./components/Register";
 export const SignIn = () => {
   const [isModalOpen, setisModalOpen] = useState<"signIn" | "signUp">();
 
@@ -44,13 +44,15 @@ export const SignIn = () => {
           </Modal>
           <Modal
             isVisible={isModalOpen === "signUp"}
-            title="Зарегестрироваться в твиттер"
-            children="register"
+            title="Создайте учетную запись"
             onClose={modalCloseHandleClick}
-          />
+          >
+            <Register />
+          </Modal>
           <h2 className="font-weight-bold mb-5">
             Узнайте, что происходит в мире прямо сейчас
           </h2>
+          
           <Button
             onClick={() => setisModalOpen("signUp")}
             className=""

@@ -38,6 +38,8 @@ console.log(formik.errors)
       />
       <TextField
         name="password"
+        type="password"
+        autoComplete='new-password'
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
