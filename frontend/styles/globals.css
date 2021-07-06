@@ -1,0 +1,34 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+.MyClass {
+  position: absolute;
+  left: 5px;
+}
+.MyClassEnterActive {
+  left: 15px;
+  transition: left 500ms;
+}
+.MyClassEnterDone {
+  left: 15px;
+}
+.MyClassExit {
+  left: 15px;
+}
+.MyClassExitActive {
+  left: 5px;
+  transition: left 500ms;
+}
