@@ -28,12 +28,24 @@ confirmed_hash : {
     required: true,
     type: String
 },
+ __v: { 
+     type: Number, 
+     select: false,
+    },
 about: String,
  Website: String,
 //  followers: User[],
 //  follows,
 //  tweets,
 //  notifications
-})
+} )
 
+userSchema.set('toJSON', {
+    transform: function (_ : any, ret: any) {
+        delete ret.email
+        delete ret.password
+        delete ret.confirmed_hash
+        return ret
+    }
+})
 export const UserModel =  model('User', userSchema)

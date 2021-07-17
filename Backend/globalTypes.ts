@@ -4,11 +4,11 @@ export enum ResultCodeEnum  {
     succsess = 0,
     error = 1
 }
-export interface ErrorInterface {
-
+export interface liteErrorInterface {
+msg: string
 }
 export interface ResponseInterface {
-    errors?: ValidationError[],
+    errors?:  ValidationError[] ,
     ResultCode: ResultCodeEnum,
     data?: any,
     count?: number

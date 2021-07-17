@@ -1,7 +1,14 @@
-import { registerValidations } from './validators/register';
-import { UserController } from './controllers/userController';
+import dotenv from 'dotenv'
+dotenv.config()
+
 import express from 'express'
 import mongoose from 'mongoose'
+
+import bodyParser from 'body-parser';
+import {passport} from './core/passport'
+
+import Usersrouter from './routes/usersRouter'
+import Authrouter from './routes/authRouter'
 
 const app = express()
 const PORT = process.env.PORT || 8001
@@ -14,9 +21,12 @@ mongoose.connect(db_connection_url, {
     "useUnifiedTopology": true
 })
 
+
 app.use(express.json())
 
-app.get('/users', UserController.index)
-app.post('/users', registerValidations, UserController.create)
+app.use(passport.initialize());
+console.log(passport)
+app.use('/users', Usersrouter)
+app.use('/auth', Authrouter)
 
 app.listen(PORT, ()=>{console.log('SERVER RUNNED')})
