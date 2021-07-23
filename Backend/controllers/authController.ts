@@ -47,7 +47,7 @@ class _AuthController {
        
    
   catch (error) {
-          
+          console.log(error)
 }
 }
 }
