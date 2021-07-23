@@ -2,10 +2,25 @@ import { UserModel } from './../models/userModel';
 import { UserService } from './../services/userService';
 import  passport  from "passport";
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 
-passport.use(new LocalStrategy(
-UserService.login
-  ));
+  passport.use(new JwtStrategy({
+    secretOrKey: process.env.SECRET_KEY,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
+  },
+    UserService.jwtVerify
+    ));
+
+  passport.serializeUser(function(id, done) {
+    done(null, id);
+  });
+  
+  passport.deserializeUser(function(id, done) {
+    UserModel.findById(id, function(err: any, user: any) {
+
+      done(err, user);
+    });
+  });
 export { passport }
 
 // function(username, password, done) {

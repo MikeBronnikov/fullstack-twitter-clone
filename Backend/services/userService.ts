@@ -52,10 +52,23 @@ class _UserService {
   }
 
 
-  async login(username: any, password: any, done: any): Promise<any>
-{
- console.log(username, password, done)
+  async loginAsPassportVetify(username: string, password: string, done: any): Promise<any>{
+ if (!username  || !password){ return done(null, false) }
+  let user = await UserModel.findOne({$or: [{"email": username}, {"username": username }]})
+  let isPasswordsSame = await bcrypt.compare(password, user.password) //first param as a plain text
+  isPasswordsSame ? done(null, user) : done(null, false)
   }
+
+  async jwtVerify(payload: any, done: any){
+    try {
+      console.log(payload)
+      return done(null, payload.userID)
+    } catch (error) {
+      done(error)
+    }
+  }
+
 }
+
 
 export const UserService = new _UserService();

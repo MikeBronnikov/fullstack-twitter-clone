@@ -25,7 +25,6 @@ mongoose.connect(db_connection_url, {
 app.use(express.json())
 
 app.use(passport.initialize());
-console.log(passport)
 app.use('/users', Usersrouter)
 app.use('/auth', Authrouter)
 

@@ -6,18 +6,16 @@ import { ResultCodeEnum, ResponseInterface } from "./../globalTypes";
 import { UserModel } from "./../models/userModel";
 import { ValidationError, validationResult } from "express-validator";
 import express from "express";
-import ApiError from '../error/ApiError';
 import path from 'path';
 
 class _UserController {
-
   async index(
     req: express.Request,
     res: express.Response<ResponseInterface>
   ): Promise<void> {
     try {
-      const users = await UserModel.find({}).exec(); 
-      res.status(200).json({
+      const users = await UserModel.find({}).exec();
+      res.status(200).send({
         data: users,
         count: users.length,
         ResultCode: ResultCodeEnum.succsess,
@@ -104,6 +102,7 @@ class _UserController {
 
   async verify(req: express.Request, res: express.Response){
     try {
+      console.log(req.query.hash)
     const vefificationResult = await UserService.verify(req.query.hash)
     vefificationResult && res.sendFile(path.join(__dirname, '..', 'public/htmls/hashConfirmed.html'))
     } catch (error) {
