@@ -7,9 +7,10 @@ const router = express.Router()
 
 router.get('/', UserController.index)
 router.post('/', registerValidations, UserController.create)
-router.get('/me', passport.authenticate('jwt'), UserController.findUser)
+router.get('/me', UserController.findAuthorisedUser)
 router.get('/verify', UserController.verify)
 router.get('/:id', UserController.findUser)
+
 
 
 

@@ -4,9 +4,11 @@ import { sendEmail } from './../utils/sendEmail';
 import { generateHash } from "./../utils/generateHash";
 import { ResultCodeEnum, ResponseInterface } from "./../globalTypes";
 import { UserModel } from "./../models/userModel";
-import { ValidationError, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
+import { passport } from "../core/passport";
 import express from "express";
 import path from 'path';
+import ApiError from '../error/ApiError';
 
 class _UserController {
   async index(
@@ -35,8 +37,8 @@ class _UserController {
     res: express.Response<ResponseInterface>
   ){ 
     try {
-    const foundUser = await UserService.findUser(req.params.id)
-
+    const id = req.params.id
+    const foundUser = await UserService.findUser(id)
     res.status(400).json({
       ResultCode: ResultCodeEnum.succsess,
       data: foundUser 
@@ -58,6 +60,26 @@ class _UserController {
   }
   }
 
+  async findAuthorisedUser(req: express.Request, res: express.Response<ResponseInterface>, next: any){
+    try {
+    let userID: string = ''
+    passport.authenticate('jwt', function (error, user) {
+      if (!user){
+        throw ApiError.badRequest('unprocessable jwt token', 'token', 'headers', user, 422)
+      }
+      userID = user
+    })(req, res, next)
+   let foundUser = await UserService.findUser(userID)
+    res.status(400).json({
+      ResultCode: ResultCodeEnum.succsess,
+      data: foundUser
+    })
+  } catch (error) {
+      res.status(error.status || 500).json({
+        ...error
+      })
+  }
+  }
 
   async create(
     req: express.Request,

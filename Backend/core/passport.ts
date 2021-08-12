@@ -4,9 +4,13 @@ import  passport  from "passport";
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 
+ passport.use(new LocalStrategy(
+  UserService.loginAsPassportVetify
+    ))
+
   passport.use(new JwtStrategy({
     secretOrKey: process.env.SECRET_KEY,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt')
   },
     UserService.jwtVerify
     ));

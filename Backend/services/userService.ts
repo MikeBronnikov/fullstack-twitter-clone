@@ -61,10 +61,10 @@ class _UserService {
 
   async jwtVerify(payload: any, done: any){
     try {
-      console.log(payload)
       return done(null, payload.userID)
     } catch (error) {
-      done(error)
+      console.log(error)
+      return done(error, false)
     }
   }
 

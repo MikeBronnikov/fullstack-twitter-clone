@@ -3,6 +3,7 @@ import express from "express";
 import { passport } from "../core/passport";
 import { UserModel } from "../models/userModel";
 import jwt from 'jsonwebtoken'
+import ApiError from "../error/ApiError";
 
 interface Iargs {
   req: any;
@@ -36,10 +37,10 @@ class _AuthController {
       
             req.login(user, async (loginErr) => {
               if (loginErr) {
-                return next(loginErr);
+                throw ApiError.badRequest('incorre suka', 'jwt', 'query', 's', 422)
               }
               let userInfo = user.toJSON()
-              let token = jwt.sign({ userID: userInfo._id }, process.env.SECRET_KEY || 'qwerty123', {expiresIn: '30d'})
+              let token ='JWT ' + jwt.sign({ userID: userInfo._id }, process.env.SECRET_KEY || 'qwerty123', {expiresIn: '30 days'})
               return res.json({ ResultCode: ResultCodeEnum.succsess, data: {...userInfo, token}});
             });
           })(req, res, next);
@@ -47,7 +48,10 @@ class _AuthController {
        
    
   catch (error) {
-          console.log(error)
+    console.log(error)
+    res.status(401).json({
+      ResultCode: ResultCodeEnum.error
+    })
 }
 }
 }
